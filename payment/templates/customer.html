@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load crispy_forms_tags %}
 <html>
     <head>
         <meta charset="utf-8">
@@ -19,7 +20,7 @@
               <h1>Tailored Jeans</h1>
               <p class="price">GHS 19.99</p>
               <p>Some text about the jeans..</p>
-              
+              {{form |crispy}}
             </div>  
             <button type="button" onClick="makePayment()">Pay Now</button>
           </form>
@@ -29,18 +30,18 @@
               FlutterwaveCheckout({
                 public_key: "{{public_key}}",
                 tx_ref: "RX1",
-                amount: 19.99,
-                currency: "GHS",
+                amount:"{{form.amount}}",
+                currency: "{{form.currency}}",
                 country: "GH",
-                payment_options: "card",
+                payment_options: "mobilemoneyghana",
                 redirect_url: // specified redirect URL
                   "{% url 'home' %}",
                 meta: {
                   consumer_id: 23,
-                  consumer_mac: "92a3-912ba-1192a",
+                  consumer_mac: "92a3-912ba-1192a"
                 },
                 customer: {
-                  email: "yeboahd24@gmail.com",
+                  email: "{{form.email}}",
                   phone_number: "08102909304",
                   name: "Python Developers",
                 },

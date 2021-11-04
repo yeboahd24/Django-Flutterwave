@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'payment',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -123,4 +124,4 @@ BASE_DIR / 'static',
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media',
 
-FLUTTERWAVE_PUBLIC_KEY = 'FLWPUBK_TEST-a74cf174274ab0c771ed7c7703130382-X'
+FLUTTERWAVE_PUBLIC_KEY = "FLWPUBK_TEST-2b7e49c0934300756e2fdb4ecb55f718-X"
