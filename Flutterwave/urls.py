@@ -18,12 +18,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from Flutterwave.settings import MEDIA_ROOT, MEDIA_URL
-from payment.views import  make_payment, payment_view, payment_link
+from payment.views import make_payment
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', home, name='home'),
     path('', make_payment, name='payment',),
-    path('charge', payment_view, name='charge'),
-    path('payment-link/', payment_link, name='payment-link'),
+    # path('charge', payment_view, name='charge'),
+    # path('payment-link/', payment_link, name='payment-link'),
+    # path('initiate_payment/', initiate_payment, name='initiate'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
