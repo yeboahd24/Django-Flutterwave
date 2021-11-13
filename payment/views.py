@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 import requests
 import json
 from django.http import HttpResponse, JsonResponse
-from .forms import PaymentForm
+from .forms import PaymentForm, VerifyPaymentForm
+from django.conf import settings
+from .models import PaymentModel
 
 
 # def payment_view(request):
@@ -67,5 +69,25 @@ def make_payment(request):
         return HttpResponse("Invalid form")
     else:
         payment_form = PaymentForm()
-    return render(request, 'payment.html', {'public_key': settings.FLUTTERWAVE_PUBLIC_KEY,
+    return render(request, 'second/make_payment.html', {'public_key': settings.FLUTTERWAVE_PUBLIC_KEY,
                                             'form': payment_form})
+
+def initiate_payment(request):
+    if request.method == 'POST':
+        payment_form = VerifyPaymentForm(request.POST)
+        if payment_form.is_valid():
+            payment = payment_form.save()
+            return render(request, 'second/make_payment.html', {'payment': payment,
+                                                    'public_key': settings.FLUTTERWAVE_PUBLIC_KEY})
+        return HttpResponse("Invalid form")
+    
+    else:
+        payment_form = VerifyPaymentForm()
+    return render(request, 'second/initiate_payment.html', {'payment_form': payment_form})
+
+
+
+def verify_payment(request, reference):
+    payment = get_object_or_404(PaymentModel, reference=reference)
+    verified = payment.verify_payment()
+    return redirect('initiate-payment')

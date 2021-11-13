@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    </head>
+
+
+    <body>
+        <form method="post">{% csrf_token %}
+            <script src="https://checkout.flutterwave.com/v3.js"></script>
+            <div class="card">
+              <h5>Make payment for GH: {{payment.amount}}</h5>
+            <button type="button" onClick="makePayment()">Pay Now</button>
+          </form>
+          
+         
+          <script>
+            function makePayment() {
+              FlutterwaveCheckout({
+                public_key: "{{public_key}}",
+                tx_ref: "RX1",
+                amount: "{{payment.amount}}",
+                currency: "GHS",
+                country: "GH",
+                payment_options: "card",
+                redirect_url: // specified redirect URL
+                  "{% url 'initiate-payment'  %}",
+                meta: {
+                  consumer_id: 23,
+                  consumer_mac: "92a3-912ba-1192a",
+                },
+                customer: {
+                  email: "{{payment.email}}",
+                  phone_number: "08102909304",
+                  name: 'Dominic Bruce',
+                },
+                callback: function (data) {
+                  console.log(data);
+                },
+                onclose: function() {
+                  // close modal
+                },
+                customizations: {
+                  title: "My store",
+                  description: "Payment for items in cart",
+                  logo: "https://assets.piedpiper.com/logo.png",
+                },
+              });
+            }
+          </script>
+          
+        <script src="" async defer></script>
+    </body>
+</html>
